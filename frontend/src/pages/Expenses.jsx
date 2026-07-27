@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ExpenseRow, ExpenseForm } from "../components/expenses/";
 import {
   getUserExpenses,
@@ -7,11 +7,22 @@ import {
   deleteExpense,
 } from "../services/expenseService";
 function Expenses() {
-  const navigate = useNavigate();
   const [userExpenses, setUserExpenses] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (location.state?.addExpense) {
+      setEditingExpense(null);
+      setShowForm(true);
+      navigate(location.pathname, {
+        replace: true,
+        state: null,
+      });
+    }
+  }, [location.state, navigate]);
   async function loadExpenses() {
     setLoading(true);
     try {
@@ -19,7 +30,6 @@ function Expenses() {
       setUserExpenses(expenses);
     } catch (err) {
       console.log(err.message);
-      navigate("/login", { replace: true });
     } finally {
       setLoading(false);
     }
@@ -41,7 +51,7 @@ function Expenses() {
       console.log(err.message);
     }
   }
-  async function handleDeleteAllexpense() {
+  async function handleDeleteAllExpenses() {
     try {
       await deleteAllExpenses();
       await loadExpenses();
@@ -51,7 +61,7 @@ function Expenses() {
   }
   useEffect(() => {
     loadExpenses();
-  }, [navigate]);
+  }, []);
   if (loading) {
     return <h2>LOADING YOUR EXPENSES ,HOLD TIGHT.......</h2>;
   }
@@ -68,14 +78,23 @@ function Expenses() {
         ADD EXPENSES
       </button>
 
-      {showForm && (
-        <ExpenseForm expense={editingExpense} onSuccess={handleSuccess} />
-      )}
-      {userExpenses.length === 0 ? (
+      {showForm ? (
+        <>
+          <ExpenseForm expense={editingExpense} onSuccess={handleSuccess} />
+          <button
+            onClick={() => {
+              setEditingExpense(null);
+              setShowForm(false);
+            }}
+          >
+            CANCEL
+          </button>
+        </>
+      ) : userExpenses.length === 0 ? (
         <p>YOU HAVE NOT CREATED ANY EXPENSE YET</p>
       ) : (
         <>
-          <button onClick={handleDeleteAllexpense}>DELETE ALL</button>
+          <button onClick={handleDeleteAllExpenses}>DELETE ALL</button>
           <section>
             <div>
               <table>

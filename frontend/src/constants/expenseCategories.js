@@ -5,6 +5,7 @@ export const expenseCategories = [
   "Shopping",
   "Entertainment",
   "Healthcare",
+  "Rent",
 ];
 export const incomeCategories = [
   "Salary",

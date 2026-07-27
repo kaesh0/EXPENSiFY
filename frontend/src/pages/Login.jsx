@@ -1,62 +1,64 @@
-import { useState} from "react";
-import {useNavigate} from 'react-router-dom';
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 function Login() {
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
   });
-  const navigate=useNavigate();
+  const[error,setError]=useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   function handleOnChange(e) {
     const name = e.target.name;
+    setError('')
     setLoginInfo((prev) => ({
       ...prev,
       [name]: e.target.value,
     }));
   }
-  async function handleLogin(e) {
+  async function handleLogin(e){
     e.preventDefault();
-    setLoading(true);
+    if(!loginInfo.email.trim() || !loginInfo.password.trim()){
+      setError('All fields are required');
+      return;
+    }
+    setSubmitting(true);
     try {
-      const response = await fetch("http://localhost:3000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(loginInfo),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        console.log(data.message);
-        return;
-      }
-      navigate("/expenses",{replace:true});
-    } catch(err){
-      console.log(err.message)
+      setError('');
+      await login(loginInfo);
+      navigate("/", { replace: true });
+    } catch (err) {
+      setError(err.message);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   }
   return (
     <>
+      {error && <p>{error}</p>}
       <form onSubmit={handleLogin}>
+        <label htmlFor="email">Email</label>
         <input
+          id="email"
           type="email"
           name="email"
-          disabled={loading}
+          disabled={submitting}
           value={loginInfo.email}
           onChange={handleOnChange}
         />
+        <label htmlFor="password">Password</label>
         <input
+          id="password"
           type="password"
           name="password"
-          disabled={loading}
+          disabled={submitting}
           value={loginInfo.password}
           onChange={handleOnChange}
         />
-        <button type="submit" disabled={loading}>
-          {loading ? "Hold Tight....." : "Login"}
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Hold Tight....." : "Login"}
         </button>
       </form>
     </>

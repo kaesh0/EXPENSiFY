@@ -5,7 +5,7 @@ import {
   incomeCategories,
 } from "../../constants/expenseCategories";
 export default function ExpenseForm({ expense, onSuccess }) {
-  const [formData, setFormdata] = useState({
+  const [formData, setFormData] = useState({
     amount: "",
     type: "",
     category: "",
@@ -20,14 +20,14 @@ export default function ExpenseForm({ expense, onSuccess }) {
   }
   useEffect(() => {
     if (expense) {
-      setFormdata({
+      setFormData({
         amount: expense.amount,
         type: expense.type,
         category: expense.category,
         transactionDate: expense.transactionDate.split("T")[0],
       });
     } else {
-      setFormdata({
+      setFormData({
         amount: "",
         type: "",
         category: "",
@@ -38,14 +38,14 @@ export default function ExpenseForm({ expense, onSuccess }) {
   function handleChange(e) {
     const { name, value } = e.target;
     if (name === "type") {
-      setFormdata((prev) => ({
+      setFormData((prev) => ({
         ...prev,
         [name]: value,
         category: "",
       }));
       return;
     }
-    setFormdata((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -117,7 +117,7 @@ export default function ExpenseForm({ expense, onSuccess }) {
           required
         />
         <button type="submit" disabled={loading}>
-          {loading ? "Saving" : expense ? "Update Expense" : "Add Expense"}{" "}
+          {loading ? "Saving" : expense ? "Update Expense" : "Save"}
         </button>
       </form>
     </>
