@@ -6,6 +6,7 @@ import {
   SummaryCard,
 } from "../components/dashboard";
 import { useNavigate } from "react-router-dom";
+const API_URL=import.meta.env.VITE_API_URL;   
 function Dashboard() {
   const [currUser, setCurrUser] = useState({
     name: "",
@@ -28,7 +29,7 @@ function Dashboard() {
       setLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:3000/api/expenses/dashboard",
+          `${API_URL}/api/expenses/dashboard`,
           {
             credentials: "include",
           },
