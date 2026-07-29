@@ -1,6 +1,7 @@
 const User = require("../model/user");
 const bcrypt = require("bcrypt");
 const { createToken } = require("../service/auth");
+const isProduction=process.env.NODE_ENV==="production";
 async function handleUserSignUp(req, res) {
   try {
     const { name, email, password } = req.body;
@@ -22,7 +23,8 @@ async function handleUserSignUp(req, res) {
     const token = createToken({ _id: newUser._id, email });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
+      secure:isProduction,
+    sameSite:isProduction? "none":"lax",
       maxAge: 24 * 60 * 60 * 1000,
     }); ///remember to set secure to true when deploying
     return res
@@ -53,7 +55,8 @@ async function handleUserLogin(req, res) {
       const token = createToken({ _id: user._id, email });
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
+        secure:isProduction,
+    sameSite:isProduction? "none":"lax",
         maxAge: 24 * 60 * 60 * 1000,
       }); ///remember to set secure to true when deploying
       return res.status(200).json({ message: "Login Succesfull" });
@@ -67,7 +70,11 @@ async function handleUserLogin(req, res) {
 }
 function handleLogout(req, res) {
   console.log("Req reqched");
-  res.clearCookie("token");
+  res.clearCookie("token",{
+    httpOnly:true,
+    secure:isProduction,
+    sameSite:isProduction? "none":"lax"
+  });
   return res.status(200).json({ message: "User Logged Out" });
 }
 async function handleGetCurrentUser(req, res) {
