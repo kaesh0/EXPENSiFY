@@ -10,12 +10,13 @@ export function AuthProvider({ children }) {
   const [currUser, setCurrUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   async function login(credentials) {
-    const user = await loginUser(credentials);
+    await loginUser(credentials);
+    const user=await fetchCurrentUser();
     setCurrUser(user);
   }
   async function signUp(formdata){
     const data=await signUpUser(formdata);
-    setCurrUser(data.user);
+    setCurrUser(data.user)
     return data;
   }
   function updateCurrUser(updatedUser) {
