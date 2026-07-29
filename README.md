@@ -14,28 +14,28 @@ A modern full-stack expense tracker built with the MERN stack that helps users s
 ## 📷 Screenshots
 
 ### Dashboard
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](./assests/dashboard.png)
 
 ### Login
-![Login](./screenshots/login.png)
+![Login](./assests/login.png)
 
 ### Sign Up
-![Sign Up](./screenshots/signup.png)
+![Sign Up](./assests/signup.png)
 
 ### Expense List
-![Expenses](./screenshots/expenses.png)
+![Expenses](./assests/expenses.png)
 
 ### Add Expense
-![Add Expense](./screenshots/add-expense.png)
+![Add Expense](./assests/add-expense.png)
 
 ### Edit Expense
-![Edit Expense](./screenshots/edit-expense.png)
+![Edit Expense](./assests/edit-expense.png)
 
 ### Profile
-![Profile](./screenshots/profile.png)
+![Profile](./assests/profile.png)
 
 ### Mobile View
-![Mobile](./screenshots/mobile.png)
+![Mobile](./assests/mobile.png)
 
 
 ## ✨ Features
