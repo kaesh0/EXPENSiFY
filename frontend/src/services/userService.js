@@ -1,5 +1,6 @@
+const API_URL=import.meta.env.VITE_API_URL;   
 export async function logoutUser() {
-  const response = await fetch("http://localhost:3000/api/users/logout", {
+  const response = await fetch("${API_URL}/api/users/logout", {
     method: "POST",
     credentials: "include",
   });
@@ -10,7 +11,7 @@ export async function logoutUser() {
   return data;
 }
 export async function fetchCurrentUser() {
-  const response = await fetch("http://localhost:3000/api/users/me", {
+  const response = await fetch("${API_URL}/api/users/me", {
     credentials: "include",
   });
   const data = await response.json();
@@ -20,7 +21,7 @@ export async function fetchCurrentUser() {
   return data;
 }
 export async function updateProfile(name) {
-  const response = await fetch("http://localhost:3000/api/users/profile/", {
+  const response = await fetch("${API_URL}/api/users/profile/", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export async function updateProfile(name) {
   return data;
 }
 export async function loginUser(credentials) {
-  const response = await fetch("http://localhost:3000/api/users/login", {
+  const response = await fetch("${API_URL}/api/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +53,7 @@ export async function loginUser(credentials) {
   return data;
 }
 export async function signUpUser(SignUpformData) {
-  const response = await fetch("http://localhost:3000/api/users/signup", {
+  const response = await fetch("${API_URL}/api/users/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

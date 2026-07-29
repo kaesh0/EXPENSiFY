@@ -1,5 +1,6 @@
+const API_URL=import.meta.env.VITE_API_URL;
 export async function getUserExpenses() {
-  const response = await fetch("http://localhost:3000/api/expenses", {
+  const response = await fetch(`${API_URL}/api/expenses`, {
     credentials: "include",
   });
   const data = await response.json();
@@ -9,7 +10,7 @@ export async function getUserExpenses() {
   return data;
 }
 export async function addUserExpense(expenseData) {
-  const response = await fetch("http://localhost:3000/api/expenses", {
+  const response = await fetch(`${API_URL}/api/expenses`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +26,7 @@ export async function addUserExpense(expenseData) {
 }
 export async function editUserExpense(expenseId, formData) {
   const response = await fetch(
-    `http://localhost:3000/api/expenses/${expenseId}`,
+    `${API_URL}/api/expenses/${expenseId}`,
     {
       method: "PUT",
       headers: {
@@ -43,7 +44,7 @@ export async function editUserExpense(expenseId, formData) {
 }
 export async function deleteExpense(expenseId) {
   const response = await fetch(
-    `http://localhost:3000/api/expenses/${expenseId}`,
+    `${API_URL}/api/expenses/${expenseId}`,
     {
       method: "DELETE",
       credentials: "include",
@@ -56,7 +57,7 @@ export async function deleteExpense(expenseId) {
   return data;
 }
 export async function deleteAllExpenses() {
-  const response = await fetch(`http://localhost:3000/api/expenses`, {
+  const response = await fetch(`${API_URL}/api/expenses`, {
     method: "DELETE",
     credentials: "include",
   });
