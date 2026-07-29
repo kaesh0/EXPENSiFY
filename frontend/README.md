@@ -1,16 +1,202 @@
-# React + Vite
+# 💸 Expens!fy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern full-stack expense tracker built with the MERN stack that helps users securely manage their personal finances.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Live Demo
 
-## React Compiler
+**Frontend:** https://expensify-ivory.vercel.app
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Backend API:** https://expensify-vkno.onrender.com
 
-## Expanding the ESLint configuration
+---
+## 📷 Screenshots
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Dashboard
+![Dashboard](./screenshots/dashboard.png)
+
+### Login
+![Login](./screenshots/login.png)
+
+### Sign Up
+![Sign Up](./screenshots/signup.png)
+
+### Expense List
+![Expenses](./screenshots/expenses.png)
+
+### Add Expense
+![Add Expense](./screenshots/add-expense.png)
+
+### Edit Expense
+![Edit Expense](./screenshots/edit-expense.png)
+
+### Profile
+![Profile](./screenshots/profile.png)
+
+### Mobile View
+![Mobile](./screenshots/mobile.png)
+
+
+## ✨ Features
+
+- 🔐 Secure JWT Authentication
+- 🍪 HTTP-only Cookie Authentication
+- 👤 User Registration & Login
+- 💰 Add Expenses
+- ✏️ Edit Existing Expenses
+- 🗑️ Delete Individual Expenses
+- 🧹 Delete All Expenses
+- 📊 Dashboard with Financial Summary
+- 📜 Recent Transactions
+- 👤 Update User Profile
+- 🔒 Protected Routes
+- 📱 Responsive UI
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+- React
+- Vite
+- React Router
+- Tailwind CSS
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Mongoose
+- JWT Authentication
+- bcrypt
+- Cookie Parser
+- CORS
+
+---
+
+## 📂 Project Structure
+
+```text
+EXPENSIFY
+│
+├── backend
+│   ├── controller
+│   ├── middleware
+│   ├── model
+│   ├── route
+│   ├── service
+│   └── index.js
+│
+├── frontend
+│   ├── src
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── services
+│   │   └── context
+│   └── public
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Installation
+
+### Clone the repository
+
+```bash
+git clone <YOUR_GITHUB_REPO_URL>
+```
+
+---
+
+### Backend Setup
+
+```bash
+cd backend
+npm install
+```
+
+Create a `.env` file inside the backend directory.
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+CLIENT_URL=http://localhost:5173
+NODE_ENV=development
+```
+
+Run the backend:
+
+```bash
+npm run dev
+```
+
+---
+
+### Frontend Setup
+
+```bash
+cd frontend
+npm install
+```
+
+Create a `.env` file.
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+Run the frontend.
+
+```bash
+npm run dev
+```
+
+---
+
+## 📷 Screenshots
+
+Add screenshots of:
+
+- Login Page
+- Dashboard
+- Add Expense
+- Edit Expense
+- Profile
+
+---
+
+## 🔒 Authentication
+
+This project uses:
+
+- JWT Authentication
+- HTTP-only Cookies
+- Protected Backend Routes
+- bcrypt Password Hashing
+
+---
+
+## 🌱 Future Improvements
+
+- Expense Categories
+- Monthly Analytics
+- Charts & Graphs
+- Budget Planning
+- CSV Export
+- Dark Mode
+- Search & Filters
+
+---
+
+## 👨‍💻 Author
+
+**Aayush Yadav**
+
+GitHub: https://github.com/<YOUR_USERNAME>
+
+LinkedIn: https://linkedin.com/in/<YOUR_LINKEDIN>
