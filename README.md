@@ -13,6 +13,10 @@ A modern full-stack expense tracker built with the MERN stack that helps users s
 ---
 ## 📷 Screenshots
 
+
+### Home
+![Home Page](./assests/home.png)
+
 ### Dashboard
 ![Dashboard](./assests/dashboard.png)
 
@@ -24,19 +28,6 @@ A modern full-stack expense tracker built with the MERN stack that helps users s
 
 ### Expense List
 ![Expenses](./assests/expenses.png)
-
-### Add Expense
-![Add Expense](./assests/add-expense.png)
-
-### Edit Expense
-![Edit Expense](./assests/edit-expense.png)
-
-### Profile
-![Profile](./assests/profile.png)
-
-### Mobile View
-![Mobile](./assests/mobile.png)
-
 
 ## ✨ Features
 
