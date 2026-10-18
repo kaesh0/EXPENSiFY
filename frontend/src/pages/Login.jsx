@@ -1,47 +1,36 @@
+import {useForm} from 'react-hook-form'
+import {z} from 'zod'
+import {zodResolver} from '@hookform/resolvers/zod'
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+const loginSchema=z.object({
+  email:z.email("Enter a valid email"),
+  password:z.string().min(1,"Password should not be empty"),
+})
+const initialValues={email:"",password:""}
 function Login() {
+  const  {register,handleSubmit,formState:{errors}}=useForm({resolver:zodResolver(loginSchema),defaultValues:initialValues})
   const [submitting, setSubmitting] = useState(false);
-  const [loginInfo, setLoginInfo] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  function handleOnChange(e) {
-    const name = e.target.name;
-    setError("");
-    setLoginInfo((prev) => ({
-      ...prev,
-      [name]: e.target.value,
-    }));
-  }
-  async function handleLogin(e) {
-    e.preventDefault();
-    if (!loginInfo.email.trim() || !loginInfo.password.trim()) {
-      setError("All fields are required");
-      return;
-    }
+  async function handleLogin(formValues) {
     setSubmitting(true);
     try {
-      setError("");
-      await login(loginInfo);
+      await login(formValues);
       navigate("/", { replace: true });
     } catch (err) {
-      setError(err.message);
+      console.log(err.message);
     } finally {
       setSubmitting(false);
     }
   }
   return (
     <main>
-      {error && <p>{error}</p>}
 
       <form
         className="bg-white rounded-md p-6 mt-5 w-full mx-auto max-w-xl shadow-md flex flex-col gap-4 "
-        onSubmit={handleLogin}
+        onSubmit={handleSubmit(handleLogin)}
       >
         <div>
           <h1 className="text-center text-3xl font-bold">Welcome Back</h1>
@@ -54,11 +43,9 @@ function Login() {
           className="w-full border rounded-md px-3 py-2"
           id="email"
           type="email"
-          name="email"
-          disabled={submitting}
-          value={loginInfo.email}
-          onChange={handleOnChange}
+          {...register("email")}
         />
+        <p>{errors.email && errors.email.message}</p>
         <label className="block text-lg font-medium " htmlFor="password">
           Password
         </label>
@@ -66,11 +53,9 @@ function Login() {
           className="w-full border rounded-md px-3 py-2"
           id="password"
           type="password"
-          name="password"
-          disabled={submitting}
-          value={loginInfo.password}
-          onChange={handleOnChange}
+          {...register("password")}
         />
+        <p>{errors.password && errors.password.message}</p>
         <div className="flex justify-start">
           <button
             className="bg-blue-500 rounded-md text-lg font-medium px-2 py-1  hover:bg-blue-600 transition-colors duration-200"

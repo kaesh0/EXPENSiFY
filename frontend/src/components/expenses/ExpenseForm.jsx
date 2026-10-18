@@ -1,76 +1,71 @@
-import { useState, useEffect } from "react";
-import { addUserExpense, editUserExpense } from "../../services/expenseService";
-import {
-  expenseCategories,
-  incomeCategories,
-} from "../../constants/expenseCategories";
+import {useEffect } from "react";
+import {useForm} from 'react-hook-form';
+import {z} from 'zod'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {expenseCategories,incomeCategories,} from "../../constants/expenseCategories";
+import {useCreateExpense,useUpdateExpense} from '../../hooks'
+const expenseSchema=z.object({
+  amount:z.coerce.number().positive("Amount must be greater than zero"),
+  type:z.enum(["Expense","Income"],{
+    message:"Select a transaction type"
+  }),
+  category:z.string().min(1,"Select a category"),
+  transactionDate:z.string().min(1,"Select a transaction date")
+})
+const initialFormValues={
+  amount:"",
+  type:"",
+  category:"",
+  transactionDate:"",
+}
 export default function ExpenseForm({ expense, onSuccess, onCancel }) {
-  const [formData, setFormData] = useState({
-    amount: "",
-    type: "",
-    category: "",
-    transactionDate: "",
-  });
-  const [loading, setLoading] = useState(false);
+  const createExpenseMutation=useCreateExpense();
+  const updateExpenseMutation=useUpdateExpense();
+  const {register,formState:{errors},handleSubmit,reset,watch,setValue}=useForm({resolver:zodResolver(expenseSchema),defaultValues:initialFormValues});
   let categories = [];
-  if (formData.type === "Income") {
+  const selectedType=watch("type");
+  const typeField=register("type");
+  if (selectedType=== "Income") {
     categories = incomeCategories;
-  } else if (formData.type === "Expense") {
+  } else if (selectedType=== "Expense") {
     categories = expenseCategories;
   }
   useEffect(() => {
     if (expense) {
-      setFormData({
+      reset({
         amount: expense.amount,
         type: expense.type,
         category: expense.category,
         transactionDate: expense.transactionDate.split("T")[0],
       });
     } else {
-      setFormData({
-        amount: "",
-        type: "",
-        category: "",
-        transactionDate: "",
-      });
+      reset(initialFormValues)
     }
-  }, [expense]);
-  function handleChange(e) {
-    const { name, value } = e.target;
-    if (name === "type") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-        category: "",
-      }));
-      return;
-    }
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  }, [expense,reset]);
+  function handleTypeChange(e){
+    setValue("category","",{
+      shouldValidate:true,
+      shouldDirty:true,
+    })
   }
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
+  async function onSubmit(formValues) {
     try {
       if (expense) {
-        await editUserExpense(expense._id, formData);
+        await updateExpenseMutation.mutateAsync({id:expense._id, newData:formValues});
       } else {
-        await addUserExpense(formData);
+        await createExpenseMutation.mutateAsync(formValues);
       }
       onSuccess();
     } catch (err) {
       console.log(err.message);
-    } finally {
-      setLoading(false);
     }
   }
+  const isSaving=createExpenseMutation.isPending || updateExpenseMutation.isPending;
   return (
     <main>
       <form
         className="bg-white rounded-md p-6 w-full mx-auto max-w-xl shadow-md"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="text-xl font-bold mb-8">
           {expense ? "Update Expense" : "Add Expense"}
@@ -84,11 +79,7 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
             placeholder="ENTER AMOUNT"
             id="amount"
             type="number"
-            value={formData.amount}
-            onChange={handleChange}
-            min="0"
-            name="amount"
-            required
+            {...register("amount")}
           />
         </div>
         <div className="mb-6">
@@ -98,15 +89,17 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
           <select
             className="w-full border rounded-md px-3 py-2"
             id="type"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            required
+            {...typeField}
+            onChange={(event)=>{
+              typeField.onChange(event);
+              handleTypeChange();
+            }}
           >
             <option value="">Select Type</option>
             <option value="Income">Income</option>
             <option value="Expense">Expense</option>
           </select>
+          {errors.type && <p>{errors.type.message}</p>}
         </div>
         <div className="mb-6">
           <label className="block text-lg font-medium mb-2" htmlFor="category">
@@ -115,11 +108,8 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
           <select
             className="w-full border rounded-md px-3 py-2"
             id="category"
-            value={formData.category}
-            onChange={handleChange}
-            name="category"
-            disabled={!formData.type}
-            required
+            {...register("category")}
+            disabled={isSaving}
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
@@ -128,6 +118,7 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
               </option>
             ))}
           </select>
+          {errors.category && <p>{errors.category.message}</p>}
         </div>
         <div className="mb-6">
           <label
@@ -140,16 +131,15 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
             className="w-full border rounded-md px-3 py-2"
             id="transaction-date"
             type="date"
-            value={formData.transactionDate}
-            onChange={handleChange}
-            name="transactionDate"
-            required
+            {...register("transactionDate")}
           />
+          {errors.transactionDate && <p>{errors.transactionDate.message}</p>}
         </div>
         <div className="flex justify-end gap-4">
           <button
             type="button"
             onClick={onCancel}
+            disabled={isSaving}
             className="bg-red-500 rounded-md text-lg font-medium px-4 py-1  hover:bg-red-600  transition-colors duration-200"
           >
             CANCEL
@@ -157,9 +147,9 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
           <button
             className="bg-green-500 rounded-md text-lg font-medium px-2 py-1  hover:bg-green-600 transition-colors duration-200"
             type="submit"
-            disabled={loading}
+            disabled={isSaving}
           >
-            {loading ? "Saving" : expense ? "Update Expense" : "Save Expense"}
+            {isSaving ? "Saving" : expense ? "Update Expense" : "Save Expense"}
           </button>
         </div>
       </form>

@@ -1,13 +1,10 @@
-import AppRoutes from "./routes/Approutes";
 import Navbar from "./components/navbar";
-import { AuthProvider } from "./context/AuthContext";
+import {Outlet} from 'react-router-dom'
 function App() {
   return (
     <>
-      <AuthProvider>
         <Navbar />
-        <AppRoutes />
-      </AuthProvider>
+        <Outlet/>
     </>
   );
 }

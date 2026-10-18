@@ -1,50 +1,25 @@
-import { createContext, useState, useEffect } from "react";
-import {
-  fetchCurrentUser,
-  loginUser,
-  logoutUser,
-  signUpUser
-} from "../services/userService";
+import { createContext} from "react";
+import {useCurrentUser,useLogin,useLogout,useSignUp} from '../hooks/index'
 export const AuthContext = createContext();
 export function AuthProvider({ children }) {
-  const [currUser, setCurrUser] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
-  async function login(credentials) {
-    await loginUser(credentials);
-    const user=await fetchCurrentUser();
-    setCurrUser(user);
+  const loginMutation=useLogin();
+  const logoutMutation=useLogout();
+  const signUpMutation=useSignUp();
+  const currentUserData=useCurrentUser();
+  const currUser=currentUserData.data?? null;
+  const authLoading=currentUserData.isPending;
+  function login(credentials) {
+    return loginMutation.mutateAsync(credentials);
   }
-  async function signUp(formdata){
-    const data=await signUpUser(formdata);
-    setCurrUser(data.user)
-    return data;
+  function signUp(formdata){
+    return signUpMutation.mutateAsync(formdata);
   }
-  function updateCurrUser(updatedUser) {
-    setCurrUser(updatedUser);
+  function logout() {
+    return logoutMutation.mutateAsync();
   }
-  async function logout() {
-    console.log("logut clicked");
-
-    await logoutUser();
-    console.log("logout success");
-    setCurrUser(null);
-  }
-  useEffect(() => {
-    async function getCurrUser() {
-      try {
-        const user = await fetchCurrentUser();
-        setCurrUser(user);
-      } catch (err) {
-        console.error(err.message);
-      } finally {
-        setAuthLoading(false);
-      }
-    }
-    getCurrUser();
-  }, []);
   return (
     <AuthContext.Provider
-      value={{ currUser, updateCurrUser, authLoading, login, logout,signUp }}
+      value={{ currUser,authLoading, login, logout,signUp }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { ExpenseRow, ExpenseForm } from "../components/expenses/";
-import {
-  getUserExpenses,
-  deleteAllExpenses,
-  deleteExpense,
-} from "../services/expenseService";
+import { useLocation, useNavigate} from "react-router-dom";
+import { ExpenseRow, ExpenseForm } from "../../components/expenses";
+import {useExpenses,useDeleteExpense,useDeleteAllExpenses} from '../../hooks'
+
 function Expenses() {
-  const [userExpenses, setUserExpenses] = useState([]);
+  const{data:userExpenses=[],isPending,isError,error}=useExpenses();
+  const deleteExpenseMutation=useDeleteExpense();
+  const deleteAllExpenseMutation=useDeleteAllExpenses();
   const [showForm, setShowForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
-  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,19 +21,7 @@ function Expenses() {
       });
     }
   }, [location.state, navigate]);
-  async function loadExpenses() {
-    setLoading(true);
-    try {
-      const expenses = await getUserExpenses();
-      setUserExpenses(expenses);
-    } catch (err) {
-      console.log(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }
   async function handleSuccess() {
-    await loadExpenses();
     setShowForm(false);
     setEditingExpense(null);
   }
@@ -45,16 +31,14 @@ function Expenses() {
   }
   async function handleDeleteById(expenseId) {
     try {
-      await deleteExpense(expenseId);
-      await loadExpenses();
+      await deleteExpenseMutation.mutateAsync({id:expenseId})
     } catch (err) {
       console.log(err.message);
     }
   }
   async function handleDeleteAllExpenses() {
     try {
-      await deleteAllExpenses();
-      await loadExpenses();
+      await deleteAllExpenseMutation.mutateAsync();
     } catch (err) {
       console.log(err.message);
     }
@@ -63,10 +47,10 @@ function Expenses() {
     setEditingExpense(null);
     setShowForm(false);
   }
-  useEffect(() => {
-    loadExpenses();
-  }, []);
-  if (loading) {
+  if(isError){
+    return <h2>{error.message}</h2>
+  }
+  if (isPending) {
     return <h2>LOADING YOUR EXPENSES ,HOLD TIGHT.......</h2>;
   }
   return (

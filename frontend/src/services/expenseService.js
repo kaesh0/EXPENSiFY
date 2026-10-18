@@ -1,69 +1,26 @@
-const API_URL=import.meta.env.VITE_API_URL;
+import {apiClient} from './apiClient'
 export async function getUserExpenses() {
-  const response = await fetch(`${API_URL}/api/expenses`, {
-    credentials: "include",
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-  return data;
+  return apiClient("/api/expenses")
 }
 export async function addUserExpense(expenseData) {
-  const response = await fetch(`${API_URL}/api/expenses`, {
+  return apiClient("/api/expenses/",{
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
     body: JSON.stringify(expenseData),
   });
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-  return data;
 }
-export async function editUserExpense(expenseId, formData) {
-  const response = await fetch(
-    `${API_URL}/api/expenses/${expenseId}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(formData),
-    },
-  );
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-  return data;
+export async function editUserExpense(expenseId,formData){
+  return apiClient(`/api/expenses/${expenseId}`,{
+    method: "PUT",
+    body: JSON.stringify(formData),
+  })
 }
 export async function deleteExpense(expenseId) {
-  const response = await fetch(
-    `${API_URL}/api/expenses/${expenseId}`,
-    {
-      method: "DELETE",
-      credentials: "include",
-    },
-  );
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-  return data;
+    return apiClient(`/api/expenses/${expenseId}`,{
+    method: "DELETE",
+  })
 }
 export async function deleteAllExpenses() {
-  const response = await fetch(`${API_URL}/api/expenses`, {
+   return apiClient("/api/expenses",{
     method: "DELETE",
-    credentials: "include",
-  });
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-  return data;
+  })
 }
