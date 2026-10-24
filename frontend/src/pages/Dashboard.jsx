@@ -5,7 +5,7 @@ import {
   QuickActions,
   SummaryCard,
 } from "../components/dashboard";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const API_URL=import.meta.env.VITE_API_URL;   
 function Dashboard() {
   const [currUser, setCurrUser] = useState({
@@ -58,43 +58,31 @@ function Dashboard() {
     return <h2>LOADING DASHBOARD,HOLD TIGHT....</h2>;
   }
   return (
-    <main className="app-page dashboard-page">
-      <section className="mt-10">
-        <WelcomeSection name={currUser.name} />
-      </section>
-      <section className="mt-10">
-        <h2 className="font-semibold text-2xl mb-2">SUMMARY</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <SummaryCard
-            title="TOTAL INCOME"
-            value={dashboardData.summary.totalIncome}
-          />
-          <SummaryCard
-            title="TOTAL EXPENSE"
-            value={dashboardData.summary.totalExpense}
-          />
-          <SummaryCard
-            title="CURRENT BALANCE"
-            value={dashboardData.summary.currBalance}
-          />
-          <SummaryCard
-            title="TRANSACTIONS"
-            value={dashboardData.summary.transactions}
-          />
+    <main className="dashboard-shell">
+      <aside className="dashboard-sidebar">
+        <div className="dashboard-sidebar-brand"><span className="dashboard-brand-mark">E</span><strong>Expens!fy</strong></div>
+        <div className="dashboard-balance"><span>Wallet balance</span><strong>${Number(dashboardData.summary.currBalance || 0).toLocaleString()}</strong></div>
+        <nav className="dashboard-side-nav" aria-label="Dashboard navigation">
+          <Link className="dashboard-side-link active" to="/dashboard">Dashboard</Link>
+          <Link className="dashboard-side-link" to="/expenses">Expenses</Link>
+          <Link className="dashboard-side-link" to="/profile">Profile</Link>
+        </nav>
+        <div className="dashboard-user-card"><span className="dashboard-user-avatar">{currUser.name?.charAt(0) || "U"}</span><div><strong>{currUser.name || "Your account"}</strong><small>{currUser.email}</small></div></div>
+      </aside>
+      <div className="dashboard-content">
+        <header className="dashboard-toolbar"><span className="sync-pill"><i />Realtime sync active</span><Link className="dashboard-record-link" to="/expenses">+ Record expense</Link></header>
+        <div className="dashboard-main">
+          <section className="dashboard-welcome"><div><p className="page-kicker">Monthly snapshot</p><WelcomeSection name={currUser.name} /><p className="dashboard-subtitle">Your income, spending, and balance at a glance.</p></div><Link className="dashboard-date-link" to="/expenses">View expenses →</Link></section>
+          <section className="dashboard-summary-grid">
+            <SummaryCard title="TOTAL BALANCE" value={dashboardData.summary.currBalance} />
+            <SummaryCard title="MONTHLY INCOME" value={dashboardData.summary.totalIncome} />
+            <SummaryCard title="EXPENSES" value={dashboardData.summary.totalExpense} />
+            <SummaryCard title="TRANSACTIONS" value={dashboardData.summary.transactions} />
+          </section>
+          <section className="dashboard-velocity"><div className="velocity-icon">↗</div><div><p>Weekly cash velocity</p><strong>Stay on top of your recent activity</strong></div><span>+14.2%</span></section>
+          <div className="dashboard-lower-grid"><section className="dashboard-panel dashboard-recent"><div className="dashboard-panel-heading"><h2>Recent spending log</h2><Link to="/expenses">View all records</Link></div><RecentExpense recentExpenses={dashboardData.recentExpenses} /></section><section className="dashboard-panel dashboard-quick"><div className="dashboard-panel-heading"><h2>Quick actions</h2><span>Zero lag</span></div><QuickActions /></section></div>
         </div>
-      </section>
-      <section className="mt-10">
-        <div className="shadow-xl rounded-lg p-4">
-          <h2 className="font-semibold text-lg mb-2 ">RECENT EXPENSES</h2>
-          <RecentExpense recentExpenses={dashboardData.recentExpenses} />
-        </div>
-      </section>
-      <section className="mt-10">
-        <div className="shadow-xl rounded-lg p-4">
-          <h2 className="font-semibold text-lg mb-2">QUICK ACTIONS</h2>
-          <QuickActions />
-        </div>
-      </section>
+      </div>
     </main>
   );
 }
