@@ -78,7 +78,7 @@ function Dashboard() {
             <SummaryCard title="EXPENSES" value={dashboardData.summary.totalExpense} />
             <SummaryCard title="TRANSACTIONS" value={dashboardData.summary.transactions} />
           </section>
-          <div className="dashboard-lower-grid"><section className="dashboard-panel dashboard-recent"><div className="dashboard-panel-heading"><h2>Recent spending log</h2><Link to="/expenses">View all records</Link></div><RecentExpense recentExpenses={dashboardData.recentExpenses} /></section><section className="dashboard-panel dashboard-quick"><div className="dashboard-panel-heading"><h2>Quick actions</h2><span>Zero lag</span></div><QuickActions /></section></div>
+          <div className="dashboard-lower-grid"><section className="dashboard-panel dashboard-recent"><div className="dashboard-panel-heading"><h2>Recent spending log</h2><Link to="/expenses">View all records</Link></div><RecentExpense recentExpenses={dashboardData.recentExpenses} /></section><section className="dashboard-panel dashboard-quick"><div className="dashboard-panel-heading"><h2>Quick actions</h2></div><QuickActions /></section></div>
         </div>
       </div>
     </main>
