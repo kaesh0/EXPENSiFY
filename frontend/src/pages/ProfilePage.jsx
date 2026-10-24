@@ -69,7 +69,7 @@ function ProfilePage() {
   return (
     <main className="app-page profile-page">
       <form
-        className="bg-white  shadow-xl rounded-xl max-w-xl w-full mx-auto p-8"
+        className="profile-form-card"
         onSubmit={handleSubmit(handleEditSubmit)}
       >
         <h1 className="font-bold text-2xl mb-2">Profile</h1>

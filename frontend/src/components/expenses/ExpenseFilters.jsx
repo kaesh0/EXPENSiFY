@@ -10,11 +10,11 @@ export default function ExpenseFilters({filters,onChange,onClear}) {
   return (<div className="expense-filter-bar">
     <div>
       <label htmlFor="searchTerm">Search Term</label>
-      <input name="searchTerm" value={filters.searchTerm} onChange={onChange} id="searchTerm" type="text" />
+      <input className="filter-control" name="searchTerm" value={filters.searchTerm} onChange={onChange} id="searchTerm" type="text" />
     </div>
     <div>
       <label htmlFor="type">Type</label>
-      <select value={filters.type} onChange={onChange}  name="type" id="type">
+      <select className="filter-control" value={filters.type} onChange={onChange}  name="type" id="type">
         <option value="all">All Types</option>
         <option value="Income">Income</option>
         <option value="Expense">Expense</option>
@@ -22,7 +22,7 @@ export default function ExpenseFilters({filters,onChange,onClear}) {
     </div>
     <div>
       <label htmlFor="category">Category</label>
-      <select onChange={onChange}  name="category" id="category" value={filters.category}>
+      <select className="filter-control" onChange={onChange}  name="category" id="category" value={filters.category}>
         {categories.map((category)=>{
             return (<option key={category} value={category}>{category}</option>)
         })}
@@ -31,11 +31,11 @@ export default function ExpenseFilters({filters,onChange,onClear}) {
     </div>
     <div>
       <label htmlFor="dateFrom">AFTER DATE</label>
-      <input onChange={onChange} name="dateFrom" id="dateFrom" type="date"  value={filters.dateFrom}/>
+      <input className="filter-control" onChange={onChange} name="dateFrom" id="dateFrom" type="date"  value={filters.dateFrom}/>
     </div>
     <div>
       <label htmlFor="dateTo">BEFORE DATE</label>
-      <input onChange={onChange}  name="dateTo" id="dateTo" type="date" value={filters.dateTo}/>
+      <input className="filter-control" onChange={onChange}  name="dateTo" id="dateTo" type="date" value={filters.dateTo}/>
     </div>
     <div>
       <label htmlFor="minAmount">Minimum Amount</label>

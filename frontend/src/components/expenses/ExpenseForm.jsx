@@ -90,32 +90,36 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
   const isSaving =
     createExpenseMutation.isPending || updateExpenseMutation.isPending;
   return (
-    <main>
+    <main className="expense-form-page">
       <form
-        className="bg-white rounded-md p-6 w-full mx-auto max-w-xl shadow-md"
+        className="expense-form-card"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h2 className="text-xl font-bold mb-8">
+        <div className="form-heading">
+          <p className="page-kicker">Transaction details</p>
+          <h2>
           {expense ? "Update Expense" : "Add Expense"}
-        </h2>
-        <div className="mb-6">
+          </h2>
+          <p>Keep your cash flow clear and up to date.</p>
+        </div>
+        <div className="form-field">
           <label className="block text-lg font-medium mb-2" htmlFor="amount">
             Amount
           </label>
           <input
-            className="w-full border rounded-md px-3 py-2"
+            className="form-control"
             placeholder="ENTER AMOUNT"
             id="amount"
             type="number"
             {...register("amount")}
           />
         </div>
-        <div className="mb-6">
+        <div className="form-field">
           <label className="block text-lg font-medium mb-2" htmlFor="type">
             Type
           </label>
           <select
-            className="w-full border rounded-md px-3 py-2"
+            className="form-control"
             id="type"
             {...typeField}
             onChange={(event) => {
@@ -129,12 +133,12 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
           </select>
           {errors.type && <p>{errors.type.message}</p>}
         </div>
-        <div className="mb-6">
+        <div className="form-field">
           <label className="block text-lg font-medium mb-2" htmlFor="category">
             Category
           </label>
           <select
-            className="w-full border rounded-md px-3 py-2"
+            className="form-control"
             id="category"
             {...register("category")}
             disabled={isSaving}
@@ -159,13 +163,13 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
             DESCRIPTION
           </label>
           <input
-            className="w-full border rounded-md px-3 py-2"
+            className="form-control"
             id="description"
             type="text"
             {...register("description")}
           ></input>
         </div>
-        <div className="mb-6">
+        <div className="form-field">
           <label
             className="block text-lg font-medium mb-2"
             htmlFor="transaction-date"
@@ -173,7 +177,7 @@ export default function ExpenseForm({ expense, onSuccess, onCancel }) {
             Transaction Date
           </label>
           <input
-            className="w-full border rounded-md px-3 py-2"
+            className="form-control"
             id="transaction-date"
             type="date"
             {...register("transactionDate")}
