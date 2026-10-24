@@ -6,7 +6,8 @@ body { margin: 0; min-width: 320px; background: #fbfaff; }
 button { font: inherit; cursor: pointer; }
 .site-header { position: sticky; top: 0; z-index: 10; background: #ffffffed; border-bottom: 1px solid #eef0f6; backdrop-filter: blur(14px); }
 .site-nav { max-width: 1120px; min-height: 64px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.brand { color: #087fbe; font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -.04em; text-decoration: none; }
+.brand { display: inline-flex; align-items: center; color: #087fbe; text-decoration: none; }
+.brand-logo { display: block; width: 104px; height: auto; max-height: 36px; object-fit: contain; }
 .nav-links { display: flex; align-items: center; gap: 5px; }
 .nav-link { color: #626979; font-size: 13px; text-decoration: none; padding: 9px 12px; border-radius: 8px; text-transform: capitalize; }
 .nav-link:hover, .nav-link.active { color: #087fbe; background: #edf7ff; }

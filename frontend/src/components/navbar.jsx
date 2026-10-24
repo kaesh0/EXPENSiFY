@@ -11,7 +11,9 @@ function Navbar() {
   return (
     <header className="site-header">
       <nav className="site-nav" aria-label="Main navigation">
-        <NavLink className="brand" to="/">EXPENS!FY</NavLink>
+        <NavLink className="brand" to="/" aria-label="Expens!fy home">
+          <img className="brand-logo" src="/expensify-logo.png" alt="Expens!fy — Personal Expense & Cash Flow" />
+        </NavLink>
         <div className="nav-links">
           <NavLink className={getNavClass} to="/">Home</NavLink>
           {currUser ? (
