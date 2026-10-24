@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 export default function QuickActions() {
   const navigate = useNavigate();
   return (
-    <div className="flex justify-start gap-4">
+    <div className="quick-actions flex justify-start gap-4">
       <button
         className="bg-green-400 px-2 py-1 rounded-md hover:bg-green-600 transition-colors duration-200"
         type="button"

@@ -70,7 +70,6 @@ function Dashboard() {
         <div className="dashboard-user-card"><span className="dashboard-user-avatar">{currUser.name?.charAt(0) || "U"}</span><div><strong>{currUser.name || "Your account"}</strong><small>{currUser.email}</small></div></div>
       </aside>
       <div className="dashboard-content">
-        <header className="dashboard-toolbar"><span className="sync-pill"><i />Realtime sync active</span><Link className="dashboard-record-link" to="/expenses">+ Record expense</Link></header>
         <div className="dashboard-main">
           <section className="dashboard-welcome"><div><p className="page-kicker">Monthly snapshot</p><WelcomeSection name={currUser.name} /><p className="dashboard-subtitle">Your income, spending, and balance at a glance.</p></div><Link className="dashboard-date-link" to="/expenses">View expenses →</Link></section>
           <section className="dashboard-summary-grid">
@@ -79,7 +78,6 @@ function Dashboard() {
             <SummaryCard title="EXPENSES" value={dashboardData.summary.totalExpense} />
             <SummaryCard title="TRANSACTIONS" value={dashboardData.summary.transactions} />
           </section>
-          <section className="dashboard-velocity"><div className="velocity-icon">↗</div><div><p>Weekly cash velocity</p><strong>Stay on top of your recent activity</strong></div><span>+14.2%</span></section>
           <div className="dashboard-lower-grid"><section className="dashboard-panel dashboard-recent"><div className="dashboard-panel-heading"><h2>Recent spending log</h2><Link to="/expenses">View all records</Link></div><RecentExpense recentExpenses={dashboardData.recentExpenses} /></section><section className="dashboard-panel dashboard-quick"><div className="dashboard-panel-heading"><h2>Quick actions</h2><span>Zero lag</span></div><QuickActions /></section></div>
         </div>
       </div>
