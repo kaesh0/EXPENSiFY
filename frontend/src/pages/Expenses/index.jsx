@@ -70,19 +70,19 @@ function Expenses() {
   }
   return (
     <main className="app-page expenses-page">
-      <div className="page-heading">
-        <div><p className="page-kicker">Your financial picture</p><h1>Expenses</h1><p>Track every transaction without losing the bigger picture.</p></div>
-        <button className="primary-action" type="button" onClick={() => { setEditingExpense(null); setShowForm(true); }}>Add expense</button>
-      </div>
       <div className="expenses-workspace">
         <aside className="expenses-sidebar" aria-label="Filter expenses">
           <div className="expenses-sidebar-heading">
-            <p className="page-kicker">Refine view</p>
-            <h2>Filters</h2>
+            <p className="page-kicker">Your financial picture</p>
+            <h1>Expenses</h1>
+            <p>Track every transaction without losing the bigger picture.</p>
           </div>
+          <div className="expenses-sidebar-divider" />
+          <div className="expenses-filter-heading"><p className="page-kicker">Refine view</p><h2>Filters</h2></div>
           <ExpenseFilters filters={filters} onChange={handleFilterChange} onClear={handleClearFilters}/>
         </aside>
         <div className="expenses-results">
+          <div className="expenses-results-heading"><button className="primary-action" type="button" onClick={() => { setEditingExpense(null); setShowForm(true); }}>Add expense</button></div>
       {showForm ? (
         <div>
           <ExpenseForm
@@ -110,12 +110,14 @@ function Expenses() {
         <div>
           <section>
             <div className="bg-white rounded-md shadow-md overflow-hidden">
-              <table className="w-full">
+              <table className="expenses-table">
+                <colgroup><col className="expense-col-type" /><col className="expense-col-category" /><col className="expense-col-description" /><col className="expense-col-amount" /><col className="expense-col-date" /><col className="expense-col-actions" /></colgroup>
                 <thead className="bg-gray-200 uppercase text-left text-sm tracking-wide font-semibold">
                   <tr>
-                    <th className="px-4 py-3">Type</th>
-                    <th className="px-4 py-3">Category</th>
-                    <th className="px-4 py-3">Amount</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
                     <th className="px-4 py-3">Date</th>
                     <th className="px-4 py-3">Actions</th>
                   </tr>

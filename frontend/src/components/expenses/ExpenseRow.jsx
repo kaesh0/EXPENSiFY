@@ -4,15 +4,15 @@ export default function ExpenseRow({ expense, onEdit, onDelete }) {
       <tr className="border-b hover:bg-gray-50 transition-colors duration-200">
         <td className={`px-4 py-3 ${color}`}>{expense.type}</td>
         <td className="px-4 py-3 ">{expense.category}</td>
-        <td className="px-10 py-8 ">{expense.description}</td>
-        <td className="px-4 py-3 ">{expense.amount.toLocaleString("en-IN")}</td>
+        <td className="expense-description-cell">{expense.description}</td>
+        <td>{expense.amount.toLocaleString("en-IN")}</td>
         <td className="px-4 py-3 ">{new Date(expense.transactionDate).toLocaleDateString("en-GB",{
           day:"numeric",
           month:"short",
           year:"numeric",
         })}</td>
-        <td className="px-4 py-3 ">
-          <div className="flex  gap-4">
+        <td>
+          <div className="expense-row-actions">
             <button
               type="button"
               className="bg-gray-300 rounded-md py-1 px-3 hover:bg-gray-600 transition-colors duration-200 text-xs"
