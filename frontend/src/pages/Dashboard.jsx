@@ -61,7 +61,7 @@ function Dashboard() {
     <main className="dashboard-shell">
       <aside className="dashboard-sidebar">
         <div className="dashboard-sidebar-brand"><span className="dashboard-brand-mark">E</span><strong>Expens!fy</strong></div>
-        <div className="dashboard-balance"><span>Wallet balance</span><strong>${Number(dashboardData.summary.currBalance || 0).toLocaleString()}</strong></div>
+        <div className="dashboard-balance"><span>Wallet balance</span><strong>₹{Number(dashboardData.summary.currBalance || 0).toLocaleString("en-IN")}</strong></div>
         <nav className="dashboard-side-nav" aria-label="Dashboard navigation">
           <Link className="dashboard-side-link active" to="/dashboard">Dashboard</Link>
           <Link className="dashboard-side-link" to="/expenses">Expenses</Link>

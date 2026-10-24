@@ -5,7 +5,7 @@ export default function ExpenseRow({ expense, onEdit, onDelete }) {
         <td className={`px-4 py-3 ${color}`}>{expense.type}</td>
         <td className="px-4 py-3 ">{expense.category}</td>
         <td className="expense-description-cell">{expense.description}</td>
-        <td>{expense.amount.toLocaleString("en-IN")}</td>
+        <td>₹{Number(expense.amount || 0).toLocaleString("en-IN")}</td>
         <td className="px-4 py-3 ">{new Date(expense.transactionDate).toLocaleDateString("en-GB",{
           day:"numeric",
           month:"short",
