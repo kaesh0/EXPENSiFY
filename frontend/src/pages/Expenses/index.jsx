@@ -74,9 +74,15 @@ function Expenses() {
         <div><p className="page-kicker">Your financial picture</p><h1>Expenses</h1><p>Track every transaction without losing the bigger picture.</p></div>
         <button className="primary-action" type="button" onClick={() => { setEditingExpense(null); setShowForm(true); }}>Add expense</button>
       </div>
-      <ExpenseFilters filters={filters} onChange={handleFilterChange} onClear={handleClearFilters}/>
-      
-
+      <div className="expenses-workspace">
+        <aside className="expenses-sidebar" aria-label="Filter expenses">
+          <div className="expenses-sidebar-heading">
+            <p className="page-kicker">Refine view</p>
+            <h2>Filters</h2>
+          </div>
+          <ExpenseFilters filters={filters} onChange={handleFilterChange} onClear={handleClearFilters}/>
+        </aside>
+        <div className="expenses-results">
       {showForm ? (
         <div>
           <ExpenseForm
@@ -137,6 +143,8 @@ function Expenses() {
           </section>
         </div>
       )}
+        </div>
+      </div>
     </main>
   );
 }
