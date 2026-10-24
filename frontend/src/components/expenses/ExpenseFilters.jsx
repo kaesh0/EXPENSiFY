@@ -7,7 +7,7 @@ export default function ExpenseFilters({filters,onChange,onClear}) {
     if(filters.type==="Income") categories=incomeCategories;
     else if(filters.type==="Expense") categories=expenseCategories;
     else categories=[...new Set([...incomeCategories,...expenseCategories])];
-  return (<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  return (<div className="expense-filter-bar">
     <div>
       <label htmlFor="searchTerm">Search Term</label>
       <input name="searchTerm" value={filters.searchTerm} onChange={onChange} id="searchTerm" type="text" />

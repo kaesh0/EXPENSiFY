@@ -58,7 +58,7 @@ function Dashboard() {
     return <h2>LOADING DASHBOARD,HOLD TIGHT....</h2>;
   }
   return (
-    <main className="max-w-5xl mx-auto p-6">
+    <main className="app-page dashboard-page">
       <section className="mt-10">
         <WelcomeSection name={currUser.name} />
       </section>

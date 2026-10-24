@@ -6,7 +6,8 @@ import {filters_schema} from '../../constants/expenseFilters'
 import {filterExpense} from '../../utils/expenseUtils/filterExpense'
 const initialFilters={...filters_schema}
 function Expenses() {
-  const{data:userExpenses=[],isPending,isError,error}=useExpenses();
+  const{data:expenseData=[],isPending,isError,error}=useExpenses();
+  const userExpenses = Array.isArray(expenseData) ? expenseData : [];
   const deleteExpenseMutation=useDeleteExpense();
   const deleteAllExpenseMutation=useDeleteAllExpenses();
   const[filters,setFilters]=useState(initialFilters);
@@ -68,23 +69,13 @@ function Expenses() {
     return <h2>LOADING YOUR EXPENSES ,HOLD TIGHT.......</h2>;
   }
   return (
-    <main className="max-w-5xl mx-auto p-6">
+    <main className="app-page expenses-page">
+      <div className="page-heading">
+        <div><p className="page-kicker">Your financial picture</p><h1>Expenses</h1><p>Track every transaction without losing the bigger picture.</p></div>
+        <button className="primary-action" type="button" onClick={() => { setEditingExpense(null); setShowForm(true); }}>Add expense</button>
+      </div>
       <ExpenseFilters filters={filters} onChange={handleFilterChange} onClear={handleClearFilters}/>
-      {filteredExpenses.length !== 0 && (
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">YOUR EXPENSES</h1>
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-100"
-            type="button"
-            onClick={() => {
-              setEditingExpense(null);
-              setShowForm(true);
-            }}
-          >
-            Add Expense
-          </button>
-        </div>
-      )}
+      
 
       {showForm ? (
         <div>

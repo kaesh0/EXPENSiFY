@@ -67,7 +67,7 @@ function ProfilePage() {
     return <h2>No user found</h2>;
   }
   return (
-    <main className="max-w-5xl mx-auto p-8">
+    <main className="app-page profile-page">
       <form
         className="bg-white  shadow-xl rounded-xl max-w-xl w-full mx-auto p-8"
         onSubmit={handleSubmit(handleEditSubmit)}
@@ -86,7 +86,7 @@ function ProfilePage() {
             disabled={!isEditing}
           />
         </div>
-        {errors.name && <p>{errrors.name.message}</p>}
+        {errors.name && <p className="profile-error">{errors.name.message}</p>}
         <div className="block p-6">
           <label className="text-md font-semibold mb-2 mr-2" htmlFor="email">
             Email
