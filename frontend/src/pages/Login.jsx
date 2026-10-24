@@ -2,7 +2,7 @@ import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 const loginSchema=z.object({
   email:z.email("Enter a valid email"),
@@ -26,46 +26,30 @@ function Login() {
     }
   }
   return (
-    <main>
-
-      <form
-        className="bg-white rounded-md p-6 mt-5 w-full mx-auto max-w-xl shadow-md flex flex-col gap-4 "
-        onSubmit={handleSubmit(handleLogin)}
-      >
-        <div>
-          <h1 className="text-center text-3xl font-bold">Welcome Back</h1>
-          <p className="text-center text-gray-600">Sign in to continue managing your expenses</p>
-        </div>
-        <label className="block text-lg font-medium " htmlFor="email">
-          Email
-        </label>
-        <input
-          className="w-full border rounded-md px-3 py-2"
-          id="email"
-          type="email"
-          {...register("email")}
-        />
-        <p>{errors.email && errors.email.message}</p>
-        <label className="block text-lg font-medium " htmlFor="password">
-          Password
-        </label>
-        <input
-          className="w-full border rounded-md px-3 py-2"
-          id="password"
-          type="password"
-          {...register("password")}
-        />
-        <p>{errors.password && errors.password.message}</p>
-        <div className="flex justify-start">
-          <button
-            className="bg-blue-500 rounded-md text-lg font-medium px-2 py-1  hover:bg-blue-600 transition-colors duration-200"
-            type="submit"
-            disabled={submitting}
-          >
-            {submitting ? "Hold Tight....." : "Login"}
+    <main className="auth-page">
+      <div className="auth-layout">
+        <section className="auth-intro">
+          <p className="auth-kicker">Welcome back</p>
+          <h1>Your money, clearly in view.</h1>
+          <p>Sign in to keep your expenses organized and make every day spending feel effortless.</p>
+        </section>
+        <form className="auth-card auth-form" onSubmit={handleSubmit(handleLogin)}>
+          <div className="auth-card-header">
+            <h2>Welcome back</h2>
+            <p>Sign in to continue managing your expenses.</p>
+          </div>
+          <label htmlFor="email">Email address</label>
+          <input id="email" type="email" autoComplete="email" {...register("email")} />
+          <p className="auth-error">{errors.email?.message}</p>
+          <label htmlFor="password">Password</label>
+          <input id="password" type="password" autoComplete="current-password" {...register("password")} />
+          <p className="auth-error">{errors.password?.message}</p>
+          <button className="auth-submit" type="submit" disabled={submitting}>
+            {submitting ? "Signing in..." : "Sign in"}
           </button>
-        </div>
-      </form>
+          <p className="auth-switch">New to Expens!fy? <Link to="/signup">Create an account</Link></p>
+        </form>
+      </div>
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -44,60 +44,36 @@ function SignUp() {
     }
   }
   return (
-    <main>
-      {error && <p>{error}</p>}
-
-      <form
-        className="bg-white rounded-md p-6 mt-5 w-full mx-auto max-w-xl shadow-md flex flex-col gap-4 "
-        onSubmit={handleSubmit(handleSignUp)}
-      >
+    <main className="auth-page">
+      <div className="auth-layout">
+        <section className="auth-intro">
+          <p className="auth-kicker">Start with clarity</p>
+          <h1>A calmer way to build better money habits.</h1>
+          <p>Create your free account and start seeing your income, expenses, and savings in one simple place.</p>
+        </section>
         <div>
-          <h1 className="text-center text-3xl font-bold">
-            Create your account
-          </h1>
-          <p className="text-center text-gray-600">
-            Start tracking your expenses today
-          </p>
+          {error && <p className="auth-alert" role="alert">{error}</p>}
+          <form className="auth-card auth-form" onSubmit={handleSubmit(handleSignUp)}>
+            <div className="auth-card-header">
+              <h2>Create your account</h2>
+              <p>Start tracking your expenses today.</p>
+            </div>
+            <label htmlFor="name">Name</label>
+            <input id="name" type="text" autoComplete="name" {...register("name")} />
+            <p className="auth-error">{errors.name?.message}</p>
+            <label htmlFor="email">Email address</label>
+            <input id="email" type="email" autoComplete="email" {...register("email")} />
+            <p className="auth-error">{errors.email?.message}</p>
+            <label htmlFor="password">Password</label>
+            <input id="password" type="password" autoComplete="new-password" {...register("password")} />
+            <p className="auth-error">{errors.password?.message}</p>
+            <button className="auth-submit" type="submit" disabled={submitting}>
+              {submitting ? "Creating account..." : "Create free account"}
+            </button>
+            <p className="auth-switch">Already have an account? <Link to="/login">Sign in</Link></p>
+          </form>
         </div>
-        <label className="block text-lg font-medium " htmlFor="name">
-          Name
-        </label>
-        <input
-          className="w-full border rounded-md px-3 py-2"
-          id="name"
-          type="text"
-          {...register("name")}
-        />
-        <p>{errors.name && errors.name.message}</p>
-        <label className="block text-lg font-medium " htmlFor="email">
-          Email
-        </label>
-        <input
-          className="w-full border rounded-md px-3 py-2"
-          id="email"
-          type="email"
-          {...register("email")}
-        />
-        <p>{errors.email && errors.email.message}</p>
-        <label className="block text-lg font-medium " htmlFor="password">
-          Password
-        </label>
-        <input
-          className="w-full border rounded-md px-3 py-2"
-          id="password"
-          type="password"
-          {...register("password")}
-        />
-        <p>{errors.password && errors.password.message}</p>
-        <div className="flex justify-start">
-          <button
-            className="bg-blue-500 rounded-md text-lg font-medium px-2 py-1  hover:bg-blue-600 transition-colors duration-200"
-            type="submit" disabled={submitting}
-          >
-            {submitting ? "Signing Up....." : "Sign Up"}
-          </button>
-        </div>
-      </form>
+      </div>
     </main>
   );
 }
