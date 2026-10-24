@@ -1,11 +1,12 @@
 const Expenses=require('../model/expenses');
 async function handleAddUserExpense(req,res){
     try{ 
-        const {amount,type,category,transactionDate}=req.body;
+        const {amount,type,category,description,transactionDate}=req.body;
         const expense=await Expenses.create({
             amount,
             type,
             category,
+            description: description?.trim() || "",            
             transactionDate,
             createdBy:req.user._id,
         })
@@ -44,7 +45,7 @@ async function handleGetEditUserExpense(req,res){
 }
 async function handleEditUserExpense(req,res){
     try{
-        const {amount,type,category,transactionDate}=req.body;
+        const {amount,type,category,description,transactionDate}=req.body;
         const expense=await Expenses.findById(req.params.id);
         if(!expense){
             return res.status(404).json({message:"Exepnse does not exist"});
@@ -56,6 +57,7 @@ async function handleEditUserExpense(req,res){
             amount,
             type,
             category,
+            description,
             transactionDate,
         })
         return res.status(200).json({message:"Expense updated succesfully"})
@@ -68,7 +70,7 @@ async function handleEditUserExpense(req,res){
 async function handleDeleteExpenseAll(req,res) {
     try{
         const expenses=await Expenses.find({createdBy:req.user._id});
-        if(expenses.length==0){
+        if(expenses.length===0){
             return res.status(404).json({message:'NO EXPENSE ENTRY HAS BEEN CREATED YET'});
         }
         await Expenses.deleteMany({createdBy:req.user._id});

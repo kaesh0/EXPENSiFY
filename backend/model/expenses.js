@@ -12,6 +12,10 @@ const expensesSchema=mongoose.Schema({
         type:String,
         required:true,
     },
+    description:{
+        type:String,
+        required:false,
+    },
     transactionDate:{
         type:Date,
         required:true,

@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate} from "react-router-dom";
-import { ExpenseRow, ExpenseForm } from "../../components/expenses";
+import { ExpenseRow, ExpenseForm,ExpenseFilters } from "../../components/expenses";
 import {useExpenses,useDeleteExpense,useDeleteAllExpenses} from '../../hooks'
-
+import {filters_schema} from '../../constants/expenseFilters'
+import {filterExpense} from '../../utils/expenseUtils/filterExpense'
+const initialFilters={...filters_schema}
 function Expenses() {
   const{data:userExpenses=[],isPending,isError,error}=useExpenses();
   const deleteExpenseMutation=useDeleteExpense();
   const deleteAllExpenseMutation=useDeleteAllExpenses();
+  const[filters,setFilters]=useState(initialFilters);
   const [showForm, setShowForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const filteredExpenses=filterExpense(userExpenses,filters)
   useEffect(() => {
     if (location.state?.addExpense) {
       setEditingExpense(null);
@@ -21,6 +25,16 @@ function Expenses() {
       });
     }
   }, [location.state, navigate]);
+  function handleFilterChange(event){
+    const{name,value}=event.target;
+    setFilters((prev)=>({
+      ...prev,
+      [name]:value
+    }))
+  }
+  function handleClearFilters(){
+    setFilters(initialFilters);
+  }
   async function handleSuccess() {
     setShowForm(false);
     setEditingExpense(null);
@@ -55,7 +69,8 @@ function Expenses() {
   }
   return (
     <main className="max-w-5xl mx-auto p-6">
-      {userExpenses.length !== 0 && (
+      <ExpenseFilters filters={filters} onChange={handleFilterChange} onClear={handleClearFilters}/>
+      {filteredExpenses.length !== 0 && (
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">YOUR EXPENSES</h1>
           <button
@@ -109,7 +124,7 @@ function Expenses() {
                   </tr>
                 </thead>
                 <tbody>
-                  {userExpenses.map((expense) => (
+                  {filteredExpenses.map((expense) => (
                     <ExpenseRow
                       key={expense._id}
                       expense={expense}
